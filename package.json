@@ -1,0 +1,28 @@
+{
+  "name": "lattutop-store",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "seed:products": "node scripts/seed-products.mjs"
+  },
+  "dependencies": {
+    "@supabase/ssr": "^0.5.2",
+    "@supabase/supabase-js": "^2.45.4",
+    "lucide-react": "^0.383.0",
+    "next": "^14.2.5",
+    "@phonepe-pg/pg-sdk-node": "^2.0.6",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "server-only": "^0.0.1"
+  },
+  "devDependencies": {
+    "dotenv": "^16.4.5"
+  },
+  "engines": {
+    "node": ">=18.18.0"
+  }
+}
