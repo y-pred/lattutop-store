@@ -1,0 +1,28 @@
+-- Seed data generated from lib/catalog.js
+-- Run this in the Supabase SQL editor after 0001_init.sql.
+-- Safe to re-run any time lib/catalog.js changes (upserts by id).
+
+insert into public.products (id, section, name, subtitle, price, compare_at, image, image2, story, material, suited_for, active)
+values
+  ('ganesha-combo', 'kids', 'Ganesha Combo — Wooden Peg Dolls and Story Cards', '3–9 years', 749, 1550, 'https://lattutop.com/cdn/shop/files/4_69f82713-0235-4cfa-a400-f970a4f23534.png?v=1692363442&width=533', 'https://lattutop.com/cdn/shop/files/9.png?v=1692363442&width=533', 'Ganesha is known as the remover of obstacles, worshipped before any new beginning. Legend says his elephant head came from Shiva himself, after Parvati fashioned a guardian from clay — a reminder that even the most unusual beginnings can lead to something beloved.', 'Hand-painted wood, cotton pouch, story cards included', '{}', true),
+  ('krishna-radha-sudama', 'kids', 'Krishna Radha Sudama Wooden Peg Dolls', '3–9 years', 499, 999, 'https://lattutop.com/cdn/shop/files/18.png?v=1694854236&width=533', 'https://lattutop.com/cdn/shop/files/19.png?v=1694854236&width=533', 'Sudama walked for days to visit his old friend Krishna, carrying nothing but a small bundle of flattened rice — all he had. Krishna welcomed him like a king, proving that true friendship never depends on what you''re able to bring.', 'Hand-painted wood, story cards included', '{}', true),
+  ('ramayana-combo', 'kids', 'Ramayana Dolls Combo — Wooden Peg Dolls & Story Cards', '3–9 years', 899, 1700, 'https://lattutop.com/cdn/shop/files/5_a20ec986-6fcd-4b4c-91af-220c7005b160.png?v=1692363452&width=533', 'https://lattutop.com/cdn/shop/files/Untitleddesign_1.png?v=1692363452&width=533', 'The Ramayana follows Prince Rama''s journey through exile, loss, and the rescue of Sita — with loyal Hanuman by his side the entire way. It''s one of India''s oldest epics, still told to children as a story about courage and devotion.', 'Hand-painted wood, cotton pouch, story cards included', '{}', true),
+  ('lattu-spin-pack', 'kids', 'Wooden Hand Spinning Lattu Toy — Pack of 5', '3–9 years · Multicolour', 200, NULL, 'https://lattutop.com/cdn/shop/files/ChatGPT_Image_Dec_12_2025_04_50_34_PM.png?v=1765538720&width=533', 'https://lattutop.com/cdn/shop/files/ChatGPT_Image_Dec_12_2025_04_54_43_PM.png?v=1765538720&width=533', 'The lattu, or spinning top, is one of India''s oldest playground games — spun by hand or with string, and raced by generations of kids on courtyards and streets long before screens existed.', 'Hand-painted wood, pack of 5', '{}', true),
+  ('kohli', 'collectible', 'Kohli Wooden Collectible', 'Cricket Icon', 799, 1399, 'https://lattutop.com/cdn/shop/files/1.png?v=1686038755&width=533', 'https://lattutop.com/cdn/shop/files/2_ca163199-4723-4455-a363-32644552163a.png?v=1686038756&width=533', 'A tribute to focus, fitness, and leading from the front. For the desk of anyone chasing their own personal best.', 'Hand-painted wood', ARRAY['Work Desk', 'Gifting', 'Fan Collection'], true),
+  ('kohli-rcb', 'collectible', 'Kohli RCB Edition Wooden Collectible', 'Cricket Icon · RCB Edition', 999, NULL, 'https://lattutop.com/cdn/shop/files/eb6542957d713b6747a5fa6c4163cbc6ddb8a8c8b5309d575eee8cc69638dc15.png?v=1780314997&width=533', 'https://lattutop.com/cdn/shop/files/file_00000000e14871fab5cff736792e4b32.png?v=1780313970&width=533', 'A red-and-gold tribute for RCB''s biggest fans — years of loyalty, finally on your shelf.', 'Hand-painted wood', ARRAY['Work Desk', 'Fan Collection', 'Gifting'], true),
+  ('rajni', 'collectible', 'Rajni Wooden Collectible', 'Cinema Icon', 899, 1399, 'https://lattutop.com/cdn/shop/files/RajnikaanthFront.png?v=1692361102&width=533', 'https://lattutop.com/cdn/shop/files/RajnikaanthSide.png?v=1692361102&width=533', 'Style, swagger, and never explaining yourself — for the ones who walked in late and stole the show anyway.', 'Hand-painted wood', ARRAY['Work Desk', 'Fan Collection', 'Gifting'], true),
+  ('modi-ji', 'collectible', 'Modi Ji Wooden Collectible', 'Leadership Icon', 799, 1399, 'https://lattutop.com/cdn/shop/files/ModiFront.png?v=1692361039&width=533', 'https://lattutop.com/cdn/shop/files/ModiJiSide.png?v=1692361055&width=533', 'A reminder that discipline and vision can move a billion people forward — for the office desk and boardroom shelf alike.', 'Hand-painted wood', ARRAY['Office Desk', 'Boardroom Gifting'], true),
+  ('mbappe', 'collectible', 'Mbappe Wooden Collectible', 'Football Icon', 1099, NULL, 'https://lattutop.com/cdn/shop/files/ChatGPTImageJul7_2026_04_33_50PM.png?v=1783423041&width=533', NULL, 'For anyone who believes talent is built one practice session at a time — speed, skill, and the joy of the game.', 'Hand-painted wood', ARRAY['Work Desk', 'Fan Collection', 'Gifting'], true),
+  ('sallu-bhai', 'collectible', 'Sallu Bhai Wooden Collectible', 'Cinema Icon', 999, 1399, 'https://lattutop.com/cdn/shop/files/SalmanFront.png?v=1692361139&width=533', 'https://lattutop.com/cdn/shop/files/SalmanSide.png?v=1692361139&width=533', 'Larger-than-life energy for the desk or the fan shelf — a nod to decades on the big screen.', 'Hand-painted wood', ARRAY['Work Desk', 'Fan Collection', 'Gifting'], true)
+on conflict (id) do update set
+  section = excluded.section,
+  name = excluded.name,
+  subtitle = excluded.subtitle,
+  price = excluded.price,
+  compare_at = excluded.compare_at,
+  image = excluded.image,
+  image2 = excluded.image2,
+  story = excluded.story,
+  material = excluded.material,
+  suited_for = excluded.suited_for,
+  active = excluded.active;
