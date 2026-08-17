@@ -15,6 +15,8 @@
 
 .lt-header{ position:sticky; top:0; z-index:40; background:var(--cream); border-bottom:1px solid var(--line); }
 .lt-header-inner{ max-width:1180px; margin:0 auto; padding:10px 24px; display:flex; align-items:center; gap:20px; }
+.lt-logo{ display:flex; align-items:center; }
+.lt-logo-img{ height:40px; width:auto; }
 .lt-brandmark{ display:flex; align-items:center; gap:9px; }
 .lt-brandmark-word{ font-family:'Fraunces',serif; font-weight:600; font-size:1.34rem; color:var(--ink); letter-spacing:-0.01em; }
 .lt-brandmark-top{ color:var(--sindoor); }
@@ -172,6 +174,7 @@
 .lt-footer{ background:var(--indigo); color:#D9CFC0; padding:48px 24px 20px; }
 .lt-footer-inner{ max-width:1180px; margin:0 auto; display:grid; grid-template-columns:1.4fr 1fr 1fr; gap:40px; }
 .lt-footer-logo{ margin-bottom:10px; }
+.lt-footer-logo-img{ height:34px; width:auto; filter:brightness(0) invert(1); opacity:0.92; }
 .lt-footer-brand p{ font-size:0.85rem; max-width:280px; }
 .lt-footer-col h5{ color:var(--cream); font-family:'Space Mono',monospace; font-size:0.75rem; letter-spacing:0.08em; text-transform:uppercase; margin-bottom:12px; }
 .lt-footer-col button, .lt-footer-col a{ display:block; font-size:0.86rem; margin-bottom:8px; text-align:left; color:#D9CFC0; }

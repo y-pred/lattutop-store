@@ -1,12 +1,18 @@
+import Image from "next/image";
 import Link from "next/link";
-import LattuLogo from "@/components/decor/LattuLogo";
 
 export default function Footer() {
   return (
     <footer className="lt-footer">
       <div className="lt-footer-inner">
         <div className="lt-footer-brand">
-          <LattuLogo size={36} light className="lt-footer-logo" />
+          <Image
+            src="/brand/lattutop-logo.png"
+            alt="lattuTop"
+            width={242}
+            height={122}
+            className="lt-footer-logo lt-footer-logo-img"
+          />
           <p>Hand-painted wooden dolls and collectibles, made in India — inspired by Channapatna craft.</p>
         </div>
         <div className="lt-footer-col">

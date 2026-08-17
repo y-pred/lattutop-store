@@ -1,12 +1,12 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { ShoppingCart, User, Menu } from "lucide-react";
 import { useCart } from "@/components/cart-context";
 import { createClient } from "@/lib/supabase/client";
-import LattuLogo from "@/components/decor/LattuLogo";
 
 const NAV = [
   { href: "/", label: "Home" },
@@ -43,7 +43,7 @@ export default function Header() {
     <header className="lt-header">
       <div className="lt-header-inner">
         <Link href="/" className="lt-logo" onClick={() => setMenuOpen(false)} aria-label="lattuTop home">
-          <LattuLogo size={38} />
+          <Image src="/brand/lattutop-logo.png" alt="lattuTop" width={242} height={122} className="lt-logo-img" priority />
         </Link>
 
         <nav className={"lt-nav" + (menuOpen ? " lt-nav-open" : "")}>
