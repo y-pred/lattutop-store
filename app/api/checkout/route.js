@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { StandardCheckoutPayRequest } from "@phonepe-pg/pg-sdk-node";
 import { createAdminClient, createClient } from "@/lib/supabase/server";
 import { getPhonePeClient } from "@/lib/phonepe";
+import { notifyNewOrder } from "@/lib/notify";
 
 const FREE_SHIPPING_THRESHOLD = 1500;
 const FLAT_SHIPPING = 79;
@@ -111,6 +112,10 @@ export async function POST(request) {
 
   if (paymentMethod === "cod") {
     await admin.from("orders").update({ status: "cod_confirmed" }).eq("id", order.id);
+    await notifyNewOrder(
+      { id: order.id, payment_method: "cod", subtotal, shipping, total, shipping_address: address },
+      orderItems
+    );
     return NextResponse.json({ orderId: order.id, redirectUrl: `/checkout/complete?order=${order.id}` });
   }
 

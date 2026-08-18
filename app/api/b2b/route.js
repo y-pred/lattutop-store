@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { createAdminClient } from "@/lib/supabase/server";
+import { notifyNewLead } from "@/lib/notify";
 
 export async function POST(request) {
   const body = await request.json().catch(() => null);
@@ -25,6 +26,8 @@ export async function POST(request) {
     console.error("b2b lead insert failed", error);
     return NextResponse.json({ error: "Could not save your enquiry. Please try again." }, { status: 500 });
   }
+
+  await notifyNewLead({ org_name: org, org_type: type, contact_name: contact, phone, email, estimated_qty: qty, message });
 
   return NextResponse.json({ ok: true });
 }

@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { createAdminClient } from "@/lib/supabase/server";
 import { getPhonePeClient } from "@/lib/phonepe";
+import { notifyNewOrder } from "@/lib/notify";
 
 // PhonePe calls this endpoint server-to-server whenever a payment's status
 // changes. Register this URL (https://yourdomain.com/api/phonepe/callback)
@@ -44,6 +45,10 @@ export async function POST(request) {
       .from("orders")
       .update({ status: "paid", payment_status: "paid", phonepe_order_id: payload.orderId ?? null })
       .eq("id", merchantOrderId);
+
+    const { data: orderRow } = await admin.from("orders").select("*").eq("id", merchantOrderId).single();
+    const { data: items } = await admin.from("order_items").select("*").eq("order_id", merchantOrderId);
+    if (orderRow) await notifyNewOrder(orderRow, items || []);
   } else if (type === "CHECKOUT_ORDER_FAILED") {
     await admin
       .from("orders")
