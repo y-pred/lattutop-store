@@ -1,3 +1,4 @@
+import { FileText } from "lucide-react";
 import PaintStroke from "@/components/decor/PaintStroke";
 import { SchoolScene, OfficeScene, RestaurantScene } from "@/components/decor/SceneSvgs";
 import B2BForm from "@/components/B2BForm";
@@ -25,6 +26,14 @@ export default function B2BPage() {
           <OfficeScene />
           <h4>Offices</h4>
           <p>A single polished Channapatna-style collectible, boxed for gifting — for clients, new joiners, or year-end employee gifts.</p>
+          <a
+            href="/downloads/lattutop-corporate-pitch.pdf"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="lt-scene-link"
+          >
+            <FileText size={14} /> View our corporate catalog (PDF)
+          </a>
         </div>
         <div className="lt-scene-card">
           <RestaurantScene />

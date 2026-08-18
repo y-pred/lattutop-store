@@ -215,6 +215,8 @@
 .lt-scene-svg{ width:100%; border-radius:12px; display:block; margin-bottom:12px; }
 .lt-scene-card h4{ font-family:'Fraunces',serif; font-size:1.05rem; margin-bottom:6px; }
 .lt-scene-card p{ font-size:0.84rem; color:var(--ink-soft); margin:0; }
+.lt-scene-link{ display:inline-flex; align-items:center; gap:6px; margin-top:12px; font-size:0.82rem; font-weight:600; color:var(--sindoor); }
+.lt-scene-link:hover{ text-decoration:underline; }
 
 @media (max-width: 860px){
   .lt-hero{ grid-template-columns:1fr; }
