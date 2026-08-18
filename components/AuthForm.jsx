@@ -28,7 +28,14 @@ export default function AuthForm({ redirectTo = "/account/orders" }) {
         const { data, error: signUpError } = await supabase.auth.signUp({
           email: form.email,
           password: form.password,
-          options: { data: { name: form.name } },
+          options: {
+            data: { name: form.name },
+            // Belt-and-suspenders: don't rely solely on the Supabase project's
+            // "Site URL" setting (which is what silently sent people to
+            // localhost) — explicitly point the confirmation link at wherever
+            // this app is actually running.
+            emailRedirectTo: `${window.location.origin}/account`,
+          },
         });
         if (signUpError) {
           setError(signUpError.message);
