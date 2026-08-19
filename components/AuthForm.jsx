@@ -47,6 +47,21 @@ export default function AuthForm({ redirectTo = "/account/orders" }) {
           setMode("signin");
           return;
         }
+      } else if (mode === "forgot") {
+        if (!form.email) {
+          setError("Enter your email first.");
+          return;
+        }
+        const { error: resetError } = await supabase.auth.resetPasswordForEmail(form.email, {
+          redirectTo: `${window.location.origin}/account/reset-password`,
+        });
+        if (resetError) {
+          setError(resetError.message);
+          return;
+        }
+        setInfo("Check your email for a password reset link.");
+        setMode("signin");
+        return;
       } else {
         const { error: signInError } = await supabase.auth.signInWithPassword({
           email: form.email,
@@ -66,14 +81,21 @@ export default function AuthForm({ redirectTo = "/account/orders" }) {
 
   return (
     <div className="lt-auth">
-      <div className="lt-auth-tabs">
-        <button className={mode === "signin" ? "lt-active" : ""} onClick={() => setMode("signin")} type="button">
-          Sign in
+      {mode !== "forgot" && (
+        <div className="lt-auth-tabs">
+          <button className={mode === "signin" ? "lt-active" : ""} onClick={() => setMode("signin")} type="button">
+            Sign in
+          </button>
+          <button className={mode === "signup" ? "lt-active" : ""} onClick={() => setMode("signup")} type="button">
+            Create account
+          </button>
+        </div>
+      )}
+      {mode === "forgot" && (
+        <button type="button" className="lt-back-link" onClick={() => setMode("signin")}>
+          ← Back to sign in
         </button>
-        <button className={mode === "signup" ? "lt-active" : ""} onClick={() => setMode("signup")} type="button">
-          Create account
-        </button>
-      </div>
+      )}
       <form className="lt-form" onSubmit={submit}>
         {mode === "signup" && (
           <label>
@@ -90,19 +112,32 @@ export default function AuthForm({ redirectTo = "/account/orders" }) {
             placeholder="you@email.com"
           />
         </label>
-        <label>
-          Password
-          <input
-            type="password"
-            value={form.password}
-            onChange={(e) => setForm({ ...form, password: e.target.value })}
-            placeholder="••••••••"
-          />
-        </label>
+        {mode !== "forgot" && (
+          <label>
+            Password
+            <input
+              type="password"
+              value={form.password}
+              onChange={(e) => setForm({ ...form, password: e.target.value })}
+              placeholder="••••••••"
+            />
+          </label>
+        )}
+        {mode === "signin" && (
+          <button type="button" className="lt-link-btn lt-forgot-link" onClick={() => setMode("forgot")}>
+            Forgot password?
+          </button>
+        )}
         {error && <p className="lt-form-error">{error}</p>}
         {info && <p className="lt-story-text">{info}</p>}
         <button className="lt-btn lt-btn-primary lt-w-full" type="submit" disabled={submitting}>
-          {submitting ? "Please wait…" : mode === "signup" ? "Create account" : "Sign in"}
+          {submitting
+            ? "Please wait…"
+            : mode === "signup"
+            ? "Create account"
+            : mode === "forgot"
+            ? "Send reset link"
+            : "Sign in"}
         </button>
       </form>
     </div>

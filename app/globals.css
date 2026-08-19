@@ -57,6 +57,7 @@
 .lt-btn-outline{ background:transparent; border:1.5px solid var(--ink); color:var(--ink); }
 .lt-w-full{ width:100%; }
 .lt-link-btn{ font-weight:700; font-size:0.85rem; color:var(--sindoor); }
+.lt-forgot-link{ align-self:flex-end; font-size:0.8rem; margin-top:-8px; }
 .lt-link-light{ color:var(--marigold); }
 .lt-view-all{ display:block; margin-top:24px; text-align:center; }
 
