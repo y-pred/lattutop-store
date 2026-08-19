@@ -142,6 +142,11 @@
 .lt-form input:focus, .lt-form select:focus, .lt-form textarea:focus{ outline:2px solid var(--indigo); outline-offset:1px; }
 .lt-form-error{ color:var(--sindoor); font-size:0.82rem; font-weight:600; margin:0; }
 
+.lt-input-wrap{ position:relative; display:flex; }
+.lt-input-wrap input{ width:100%; padding-right:40px; }
+.lt-input-eye{ position:absolute; right:6px; top:50%; transform:translateY(-50%); width:28px; height:28px; display:flex; align-items:center; justify-content:center; border-radius:6px; color:var(--ink-soft); }
+.lt-input-eye:hover{ background:var(--bg-soft); }
+
 .lt-auth-tabs{ display:flex; gap:4px; background:var(--bg-soft); border-radius:10px; padding:4px; margin-top:14px; }
 .lt-auth-tabs button{ flex:1; padding:9px; border-radius:8px; font-weight:700; font-size:0.85rem; color:var(--ink-soft); }
 .lt-auth-tabs button.lt-active{ background:var(--cream); color:var(--ink); }
