@@ -20,14 +20,30 @@ export default function ResetPasswordPage() {
 
   useEffect(() => {
     const supabase = createClient();
+    const code = new URL(window.location.href).searchParams.get("code");
 
+    if (code) {
+      // Current Supabase projects send PKCE-style links (?code=...), which
+      // need to be explicitly exchanged for a session — the client doesn't
+      // do this automatically like it does for old hash-based links.
+      supabase.auth.exchangeCodeForSession(code).then(({ error: exchangeError }) => {
+        if (exchangeError) {
+          setError("This reset link is invalid or has expired. Please request a new one.");
+        } else {
+          setReady(true);
+        }
+      });
+      return;
+    }
+
+    // Fallback for older/implicit-flow links, which land with a hash
+    // fragment instead and get picked up automatically, firing this event.
     const {
       data: { subscription },
     } = supabase.auth.onAuthStateChange((event) => {
       if (event === "PASSWORD_RECOVERY") setReady(true);
     });
 
-    // In case the event already fired before we subscribed.
     supabase.auth.getSession().then(({ data }) => {
       if (data.session) setReady(true);
     });
@@ -72,14 +88,17 @@ export default function ResetPasswordPage() {
     return (
       <section className="lt-section" style={{ maxWidth: 420 }}>
         <p className="lt-eyebrow">Reset password</p>
-        <h1 className="lt-modal-title">Checking your link…</h1>
+        <h1 className="lt-modal-title">{error ? "Link expired" : "Checking your link…"}</h1>
         <p className="lt-story-text">
-          If this doesn't move on in a few seconds, the link may have expired — go back to the{" "}
-          <a href="/account" className="lt-link-btn">
-            sign-in page
-          </a>{" "}
-          and request a new one.
+          {error
+            ? error
+            : "If this doesn't move on in a few seconds, the link may have expired — go back to the sign-in page and request a new one."}
         </p>
+        {error && (
+          <a href="/account" className="lt-btn lt-btn-primary" style={{ marginTop: 12 }}>
+            Back to sign in
+          </a>
+        )}
       </section>
     );
   }
