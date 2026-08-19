@@ -20,32 +20,40 @@ export default function ResetPasswordPage() {
 
   useEffect(() => {
     const supabase = createClient();
-    const code = new URL(window.location.href).searchParams.get("code");
 
-    if (code) {
-      // Current Supabase projects send PKCE-style links (?code=...), which
-      // need to be explicitly exchanged for a session — the client doesn't
-      // do this automatically like it does for old hash-based links.
-      supabase.auth.exchangeCodeForSession(code).then(({ error: exchangeError }) => {
-        if (exchangeError) {
-          setError("This reset link is invalid or has expired. Please request a new one.");
-        } else {
-          setReady(true);
-        }
-      });
-      return;
-    }
+    // Normal path: the recovery link went through /auth/confirm, which
+    // already exchanged the code for a session server-side and set the
+    // cookies — so by the time we land here there should just be a session
+    // waiting for us.
+    supabase.auth.getSession().then(({ data }) => {
+      if (data.session) {
+        setReady(true);
+        return;
+      }
 
-    // Fallback for older/implicit-flow links, which land with a hash
+      // Fallback: a `?code=` landed here directly (e.g. an old/bookmarked
+      // link from before /auth/confirm existed). Try exchanging it
+      // client-side as a best effort.
+      const code = new URL(window.location.href).searchParams.get("code");
+      if (code) {
+        supabase.auth.exchangeCodeForSession(code).then(({ error: exchangeError }) => {
+          if (exchangeError) {
+            setError("This reset link is invalid or has expired. Please request a new one.");
+          } else {
+            setReady(true);
+          }
+        });
+      } else {
+        setError("This reset link is invalid or has expired. Please request a new one.");
+      }
+    });
+
+    // Also handle older/implicit-flow links, which land with a hash
     // fragment instead and get picked up automatically, firing this event.
     const {
       data: { subscription },
     } = supabase.auth.onAuthStateChange((event) => {
       if (event === "PASSWORD_RECOVERY") setReady(true);
-    });
-
-    supabase.auth.getSession().then(({ data }) => {
-      if (data.session) setReady(true);
     });
 
     return () => subscription.unsubscribe();

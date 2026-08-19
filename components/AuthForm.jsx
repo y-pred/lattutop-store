@@ -30,11 +30,12 @@ export default function AuthForm({ redirectTo = "/account/orders" }) {
           password: form.password,
           options: {
             data: { name: form.name },
-            // Belt-and-suspenders: don't rely solely on the Supabase project's
-            // "Site URL" setting (which is what silently sent people to
-            // localhost) — explicitly point the confirmation link at wherever
-            // this app is actually running.
-            emailRedirectTo: `${window.location.origin}/account`,
+            // Route through /auth/confirm so the code gets exchanged for a
+            // session server-side (reliable) instead of client-side
+            // (depends on a cookie that doesn't always survive an email
+            // client's link handling). Also means users land already
+            // signed in instead of having to sign in again after confirming.
+            emailRedirectTo: `${window.location.origin}/auth/confirm?next=/account`,
           },
         });
         if (signUpError) {
@@ -53,7 +54,7 @@ export default function AuthForm({ redirectTo = "/account/orders" }) {
           return;
         }
         const { error: resetError } = await supabase.auth.resetPasswordForEmail(form.email, {
-          redirectTo: `${window.location.origin}/account/reset-password`,
+          redirectTo: `${window.location.origin}/auth/confirm?next=/account/reset-password`,
         });
         if (resetError) {
           setError(resetError.message);
