@@ -35,7 +35,7 @@ export default function AuthForm({ redirectTo = "/account/orders" }) {
             // (depends on a cookie that doesn't always survive an email
             // client's link handling). Also means users land already
             // signed in instead of having to sign in again after confirming.
-            emailRedirectTo: `${window.location.origin}/auth/confirm?next=/account`,
+            emailRedirectTo: `${window.location.origin}/auth/confirm`,
           },
         });
         if (signUpError) {
@@ -54,7 +54,7 @@ export default function AuthForm({ redirectTo = "/account/orders" }) {
           return;
         }
         const { error: resetError } = await supabase.auth.resetPasswordForEmail(form.email, {
-          redirectTo: `${window.location.origin}/auth/confirm?next=/account/reset-password`,
+          redirectTo: `${window.location.origin}/auth/reset`,
         });
         if (resetError) {
           setError(resetError.message);
