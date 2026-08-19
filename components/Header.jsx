@@ -17,6 +17,7 @@ const NAV = [
 
 export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [accountMenuOpen, setAccountMenuOpen] = useState(false);
   const [user, setUser] = useState(null);
   const { count, openCart } = useCart();
   const pathname = usePathname();
@@ -31,9 +32,23 @@ export default function Header() {
     return () => subscription.unsubscribe();
   }, []);
 
+  // Click-to-toggle instead of CSS :hover — the gap between the icon and
+  // the dropdown was a dead zone that dropped the hover state before the
+  // cursor ever reached "My orders" / "Sign out". Click also works on
+  // touch devices, which hover never did.
+  useEffect(() => {
+    if (!accountMenuOpen) return;
+    const closeOnOutsideClick = (e) => {
+      if (!e.target.closest(".lt-account")) setAccountMenuOpen(false);
+    };
+    document.addEventListener("click", closeOnOutsideClick);
+    return () => document.removeEventListener("click", closeOnOutsideClick);
+  }, [accountMenuOpen]);
+
   const signOut = async () => {
     const supabase = createClient();
     await supabase.auth.signOut();
+    setAccountMenuOpen(false);
     router.refresh();
   };
 
@@ -62,14 +77,22 @@ export default function Header() {
         <div className="lt-header-actions">
           {user ? (
             <div className="lt-account">
-              <button className="lt-icon-btn">
+              <button
+                className="lt-icon-btn"
+                onClick={() => setAccountMenuOpen((open) => !open)}
+                aria-expanded={accountMenuOpen}
+              >
                 <User size={18} />
               </button>
-              <div className="lt-account-menu">
-                <p className="lt-account-name">Hi, {firstName}</p>
-                <Link href="/account/orders">My orders</Link>
-                <button onClick={signOut}>Sign out</button>
-              </div>
+              {accountMenuOpen && (
+                <div className="lt-account-menu">
+                  <p className="lt-account-name">Hi, {firstName}</p>
+                  <Link href="/account/orders" onClick={() => setAccountMenuOpen(false)}>
+                    My orders
+                  </Link>
+                  <button onClick={signOut}>Sign out</button>
+                </div>
+              )}
             </div>
           ) : (
             <Link href="/account" className="lt-icon-btn" title="Sign in">

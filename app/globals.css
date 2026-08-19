@@ -32,8 +32,7 @@
 .lt-cart-count{ position:absolute; top:-4px; right:-4px; background:var(--sindoor); color:#fff; font-size:0.65rem; font-weight:700; width:18px; height:18px; border-radius:50%; display:flex; align-items:center; justify-content:center; }
 .lt-menu-btn{ display:none; }
 .lt-account{ position:relative; }
-.lt-account-menu{ display:none; position:absolute; right:0; top:44px; background:var(--cream); border:1px solid var(--line); border-radius:10px; padding:10px; min-width:150px; box-shadow:0 8px 24px rgba(44,27,16,0.15); z-index:5; }
-.lt-account:hover .lt-account-menu{ display:block; }
+.lt-account-menu{ position:absolute; right:0; top:44px; background:var(--cream); border:1px solid var(--line); border-radius:10px; padding:10px; min-width:150px; box-shadow:0 8px 24px rgba(44,27,16,0.15); z-index:5; }
 .lt-account-name{ font-size:0.85rem; font-weight:600; margin:0 0 6px; }
 .lt-account-menu button, .lt-account-menu a{ display:block; width:100%; text-align:left; font-size:0.85rem; padding:6px 4px; color:var(--ink-soft); }
 .lt-account-menu button:hover, .lt-account-menu a:hover{ color:var(--sindoor); }
