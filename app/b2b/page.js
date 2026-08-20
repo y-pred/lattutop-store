@@ -25,7 +25,10 @@ export default function B2BPage() {
         <div className="lt-scene-card">
           <OfficeScene />
           <h4>Offices</h4>
-          <p>A single polished Channapatna-style collectible, boxed for gifting — for clients, new joiners, or year-end employee gifts.</p>
+          <p>
+            Channapatna-style collectibles for clients and dignitaries — a keepsake that makes you memorable —
+            plus branded swag and giveaways for conferences and events.
+          </p>
           <a
             href="/downloads/lattutop-corporate-pitch.pdf"
             target="_blank"
