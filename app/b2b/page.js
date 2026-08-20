@@ -38,7 +38,18 @@ export default function B2BPage() {
         <div className="lt-scene-card">
           <RestaurantScene />
           <h4>Restaurants</h4>
-          <p>Collectibles arranged as shelf and mantle decor — warm, handmade accents for dining rooms and lobbies.</p>
+          <p>
+            Not off a shelf — a character designed for your restaurant, built around your design, region and
+            cuisine. Placed at the host stand or entrance, it sets the tone before a guest sees the menu.
+          </p>
+          <a
+            href="/downloads/lattutop-restaurant-lookbook.pdf"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="lt-scene-link"
+          >
+            <FileText size={14} /> View our restaurant lookbook (PDF)
+          </a>
         </div>
       </div>
 
