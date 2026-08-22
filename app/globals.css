@@ -87,6 +87,14 @@
 .lt-tags{ display:flex; flex-wrap:wrap; gap:6px; }
 .lt-tag{ font-size:0.68rem; text-transform:uppercase; letter-spacing:0.04em; background:var(--bg-soft); padding:4px 8px; border-radius:100px; color:var(--ink-soft); font-weight:700; }
 .lt-story-text{ font-size:0.9rem; color:var(--ink-soft); }
+.lt-story-text-sm{ font-size:0.82rem; }
+
+.lt-detail-block{ margin-top:22px; padding-top:18px; border-top:1px solid var(--line); }
+.lt-detail-block h4{ display:flex; align-items:center; gap:6px; font-size:0.85rem; font-weight:700; margin-bottom:8px; }
+.lt-detail-subhead{ margin-top:14px; }
+.lt-detail-list{ display:flex; flex-direction:column; gap:6px; }
+.lt-detail-list li{ display:flex; align-items:flex-start; gap:7px; font-size:0.85rem; color:var(--ink-soft); }
+.lt-detail-list li svg{ margin-top:3px; flex:none; color:var(--indigo); }
 
 .lt-testimonials{ display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-top:32px; }
 .lt-testimonial{ background:var(--cream); border:1px solid var(--line); border-radius:14px; padding:18px; }

@@ -1,5 +1,5 @@
 import { notFound } from "next/navigation";
-import { Package } from "lucide-react";
+import { Package, Check, Truck, Sparkles } from "lucide-react";
 import { getProductById } from "@/lib/products-data";
 import { inr } from "@/lib/format";
 import ProductGallery from "@/components/ProductGallery";
@@ -45,6 +45,52 @@ export default async function ProductPage({ params }) {
             {onSale && <span className="lt-compare">{inr(product.compare_at)}</span>}
           </p>
           <AddToCartForm product={product} />
+
+          {product.features?.length > 0 && (
+            <div className="lt-detail-block">
+              <h4>
+                <Sparkles size={15} /> Key Features
+              </h4>
+              <ul className="lt-detail-list">
+                {product.features.map((f) => (
+                  <li key={f}>
+                    <Check size={13} /> {f}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+
+          {product.package_contents?.length > 0 && (
+            <div className="lt-detail-block">
+              <h4>
+                <Package size={15} /> Package Contents
+              </h4>
+              <ul className="lt-detail-list">
+                {product.package_contents.map((c) => (
+                  <li key={c}>
+                    <Check size={13} /> {c}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+
+          <div className="lt-detail-block">
+            <h4>
+              <Truck size={15} /> Shipping & Returns
+            </h4>
+            <p className="lt-story-text lt-story-text-sm">
+              Ships within 2–4 business days across India. Delivery typically takes 4–8 business days depending on
+              location. If your order arrives damaged or defective, reach out within 48 hours of delivery and we'll
+              sort out a replacement or refund.
+            </p>
+            <h4 className="lt-detail-subhead">Care Instructions</h4>
+            <p className="lt-story-text lt-story-text-sm">
+              Wipe gently with a soft, dry cloth. Avoid direct sunlight, water, and harsh chemicals to keep the
+              hand-painted finish looking its best.
+            </p>
+          </div>
         </div>
       </div>
     </section>
