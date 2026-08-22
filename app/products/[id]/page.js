@@ -26,11 +26,19 @@ export default async function ProductPage({ params }) {
           <p className="lt-eyebrow">{product.subtitle}</p>
           <h1 className="lt-modal-title">{product.name}</h1>
           <p className="lt-story-text">{product.story}</p>
-          <div className="lt-meta-row">
-            <span>
-              <Package size={14} /> {product.material}
-            </span>
-          </div>
+          {product.material && (
+            <ul className="lt-spec-list">
+              {product.material
+                .split(",")
+                .map((s) => s.trim())
+                .filter(Boolean)
+                .map((spec) => (
+                  <li key={spec}>
+                    <Package size={12} /> {spec}
+                  </li>
+                ))}
+            </ul>
+          )}
           {product.suited_for?.length > 0 && (
             <div className="lt-tags">
               {product.suited_for.map((t) => (
