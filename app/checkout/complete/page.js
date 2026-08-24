@@ -1,6 +1,8 @@
 import Link from "next/link";
 import { Check, X } from "lucide-react";
 import { createAdminClient } from "@/lib/supabase/server";
+import { getPhonePeClient } from "@/lib/phonepe";
+import { notifyNewOrder } from "@/lib/notify";
 import { inr } from "@/lib/format";
 import OrderStatusPoll from "@/components/OrderStatusPoll";
 
@@ -22,11 +24,7 @@ export default async function CheckoutCompletePage({ searchParams }) {
   }
 
   const admin = createAdminClient();
-  const { data: order } = await admin
-    .from("orders")
-    .select("id, status, payment_method, total")
-    .eq("id", orderId)
-    .maybeSingle();
+  let { data: order } = await admin.from("orders").select("*").eq("id", orderId).maybeSingle();
 
   if (!order) {
     return (
@@ -37,6 +35,38 @@ export default async function CheckoutCompletePage({ searchParams }) {
         </Link>
       </section>
     );
+  }
+
+  // The PhonePe webhook is the primary way orders get marked paid/failed,
+  // but PhonePe's own docs say it isn't guaranteed to arrive (some sandbox
+  // failure simulations never send one at all). So if we land here still
+  // "pending" on a PhonePe order, actively ask PhonePe for the definitive
+  // status instead of leaving the customer staring at "Confirming payment…"
+  // forever.
+  if (order.status === "pending" && order.payment_method === "phonepe") {
+    try {
+      const client = getPhonePeClient();
+      const statusResponse = await client.getOrderStatus(order.id);
+      const state = statusResponse?.state;
+
+      if (state === "COMPLETED") {
+        await admin
+          .from("orders")
+          .update({ status: "paid", payment_status: "paid", phonepe_order_id: statusResponse.orderId ?? null })
+          .eq("id", order.id);
+        order = { ...order, status: "paid", payment_status: "paid" };
+
+        const { data: items } = await admin.from("order_items").select("*").eq("order_id", order.id);
+        await notifyNewOrder(order, items || []);
+      } else if (state === "FAILED") {
+        await admin.from("orders").update({ status: "failed", payment_status: "failed" }).eq("id", order.id);
+        order = { ...order, status: "failed", payment_status: "failed" };
+      }
+      // state === "PENDING" (or anything unexpected): leave as-is, OrderStatusPoll will retry.
+    } catch (err) {
+      console.error("checkout/complete: getOrderStatus fallback failed", err);
+      // Leave status as pending — the webhook (or a later page load) may still resolve it.
+    }
   }
 
   const isPaid = order.status === "paid" || order.status === "cod_confirmed";
