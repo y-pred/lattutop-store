@@ -99,14 +99,14 @@ export default async function HomePage() {
 
       <section className="lt-section">
         <p className="lt-eyebrow">What our customers say</p>
-        <h2 className="lt-section-title">Loved by parents, gifted by fans.</h2>
+        <h2 className="lt-section-title">Loved by parents, collectors, and businesses alike.</h2>
         <PaintStroke color="#2C3A5C" />
         <div className="lt-testimonials">
           {testimonials.map((t) => (
-            <div className="lt-testimonial" key={t.name}>
+            <div className="lt-testimonial" key={t.text}>
               <Stars />
               <p>"{t.text}"</p>
-              <span>— {t.name}</span>
+              <span>— {t.tag}</span>
             </div>
           ))}
         </div>
