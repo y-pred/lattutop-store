@@ -203,6 +203,8 @@
 /* Lively-but-simple kids styling */
 .lt-kids-zone{ background-color:#FBF3E4; border-radius:24px; }
 .lt-hero-mascots{ display:flex; gap:10px; margin-bottom:14px; }
+.lt-hero-krishna-img{ width:140px; height:140px; border-radius:16px; overflow:hidden; margin-bottom:14px; background:rgba(255,255,255,0.14); box-shadow:0 12px 26px rgba(0,0,0,0.28); }
+.lt-hero-krishna-img img{ width:100%; height:100%; object-fit:cover; display:block; }
 .lt-mascots-inline{ margin-bottom:6px; }
 .lt-doll-svg{ display:block; filter:drop-shadow(0 4px 6px rgba(44,27,16,0.18)); }
 .lt-doll-bob{ animation: lt-bob 2.6s ease-in-out infinite; }

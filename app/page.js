@@ -1,38 +1,49 @@
 import Link from "next/link";
+import Image from "next/image";
 import { Building2, ChevronRight, Package, Sparkles } from "lucide-react";
 import ProductCard from "@/components/ProductCard";
 import PegDoll from "@/components/decor/PegDoll";
 import PaintStroke from "@/components/decor/PaintStroke";
 import SpinningTop from "@/components/decor/SpinningTop";
 import Stars from "@/components/decor/Stars";
-import { getFeaturedProducts } from "@/lib/products-data";
+import { getFeaturedProducts, getProductById } from "@/lib/products-data";
 import { testimonials } from "@/lib/catalog";
 
 export default async function HomePage() {
   const { kids, collectibles } = await getFeaturedProducts();
+  // TEMPORARY: Janmashtami (4 Sep 2026) hero takeover for the kids half —
+  // swap this block back to the standard mascots/copy after this week.
+  // Original version is in git history (see commit that introduced this).
+  const krishnaDoll = await getProductById("krishna-radha-sudama");
 
   return (
     <>
       <section className="lt-hero">
         <div className="lt-hero-half lt-hero-kids">
-          <div className="lt-hero-mascots">
-            <PegDoll uid="hero-m1" body="#2C3A5C" head="#D9A023" pattern="dots" size={54} bob delay={0} />
-            <PegDoll uid="hero-m2" body="#D9A023" head="#F3E9D2" pattern="stripes" size={54} bob delay={0.3} />
-            <PegDoll uid="hero-m3" body="#0E6B4F" head="#F3E9D2" pattern="dots" size={54} bob delay={0.6} />
-          </div>
-          <p className="lt-eyebrow lt-eyebrow-light">For little hands</p>
+          {krishnaDoll?.image ? (
+            <div className="lt-hero-krishna-img">
+              <Image src={krishnaDoll.image} alt="Krishna, Radha & Sudama wooden peg dolls" width={140} height={140} priority />
+            </div>
+          ) : (
+            <div className="lt-hero-mascots">
+              <PegDoll uid="hero-m1" body="#2C3A5C" head="#D9A023" pattern="dots" size={54} bob delay={0} />
+              <PegDoll uid="hero-m2" body="#D9A023" head="#F3E9D2" pattern="stripes" size={54} bob delay={0.3} />
+              <PegDoll uid="hero-m3" body="#0E6B4F" head="#F3E9D2" pattern="dots" size={54} bob delay={0.6} />
+            </div>
+          )}
+          <p className="lt-eyebrow lt-eyebrow-light">This Janmashtami</p>
           <h1>
-            Wooden peg dolls,
+            Krishna, Radha & Sudama,
             <br />
-            with a story to tell.
+            home in time for the festival.
           </h1>
           <p className="lt-hero-copy">
-            Handmade, hand-painted, 100% child-safe. Every doll comes with story cards that bring a little bit of
-            Indian culture into playtime.
+            Our hand-painted Krishna trio — flute and all — makes for a festive gift or a keepsake of your own.
+            Featured for a limited time this week.
           </p>
           <div className="lt-hero-kids-actions">
-            <Link href="/kids" className="lt-btn lt-btn-candy">
-              Shop Kids Dolls <ChevronRight size={16} />
+            <Link href="/products/krishna-radha-sudama" className="lt-btn lt-btn-candy">
+              Shop the Krishna Doll <ChevronRight size={16} />
             </Link>
             <SpinningTop />
           </div>
