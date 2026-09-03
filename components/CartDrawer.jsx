@@ -60,7 +60,7 @@ export default function CartDrawer() {
                 <span>Subtotal</span>
                 <span>{inr(subtotal)}</span>
               </div>
-              <p className="lt-ship-note">Shipping & taxes calculated at checkout.</p>
+              <p className="lt-ship-note">Free shipping, taxes included.</p>
               <button className="lt-btn lt-btn-primary lt-w-full" onClick={checkout}>
                 Checkout
               </button>

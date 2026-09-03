@@ -8,9 +8,6 @@ import { useCart } from "@/components/cart-context";
 import { createClient } from "@/lib/supabase/client";
 import { inr } from "@/lib/format";
 
-const FREE_SHIPPING_THRESHOLD = 1500;
-const FLAT_SHIPPING = 79;
-
 export default function CheckoutPage() {
   const { items, subtotal, clearCart } = useCart();
   const router = useRouter();
@@ -35,7 +32,9 @@ export default function CheckoutPage() {
     });
   }, []);
 
-  const shipping = subtotal > FREE_SHIPPING_THRESHOLD || subtotal === 0 ? 0 : FLAT_SHIPPING;
+  // Shipping is baked into product prices, not added as a separate line —
+  // see the note in app/api/checkout/route.js.
+  const shipping = 0;
   const total = subtotal + shipping;
   const addressValid = address.name && address.phone && address.line1 && address.city && address.pincode;
 
@@ -164,10 +163,6 @@ export default function CheckoutPage() {
                 <span>{inr(i.price * i.qty)}</span>
               </div>
             ))}
-            <div className="lt-summary-row">
-              <span>Shipping</span>
-              <span>{shipping === 0 ? "Free" : inr(shipping)}</span>
-            </div>
             <div className="lt-summary-row lt-summary-total">
               <span>Total</span>
               <span>{inr(total)}</span>

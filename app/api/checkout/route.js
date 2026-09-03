@@ -4,9 +4,6 @@ import { createAdminClient, createClient } from "@/lib/supabase/server";
 import { getPhonePeClient } from "@/lib/phonepe";
 import { notifyNewOrder } from "@/lib/notify";
 
-const FREE_SHIPPING_THRESHOLD = 1500;
-const FLAT_SHIPPING = 79;
-
 function isValidAddress(address) {
   return Boolean(
     address &&
@@ -76,7 +73,8 @@ export async function POST(request) {
     orderItems.push({ product_id: product.id, product_name: product.name, unit_price: product.price, qty });
   }
 
-  const shipping = subtotal > FREE_SHIPPING_THRESHOLD || subtotal === 0 ? 0 : FLAT_SHIPPING;
+  // Shipping is baked into product prices, not charged as a separate line item.
+  const shipping = 0;
   const total = subtotal + shipping;
 
   // --- Create the order (status starts pending; the webhook / COD branch below finalizes it) ---
