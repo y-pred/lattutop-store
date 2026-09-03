@@ -2,7 +2,7 @@ import Link from "next/link";
 import { Check, X } from "lucide-react";
 import { createAdminClient } from "@/lib/supabase/server";
 import { getPhonePeClient } from "@/lib/phonepe";
-import { notifyNewOrder } from "@/lib/notify";
+import { notifyNewOrder, notifyCustomerOrderConfirmation, getCustomerEmail } from "@/lib/notify";
 import { inr } from "@/lib/format";
 import OrderStatusPoll from "@/components/OrderStatusPoll";
 
@@ -58,6 +58,8 @@ export default async function CheckoutCompletePage({ searchParams }) {
 
         const { data: items } = await admin.from("order_items").select("*").eq("order_id", order.id);
         await notifyNewOrder(order, items || []);
+        const customerEmail = await getCustomerEmail(admin, order);
+        await notifyCustomerOrderConfirmation(order, items || [], customerEmail);
       } else if (state === "FAILED") {
         await admin.from("orders").update({ status: "failed", payment_status: "failed" }).eq("id", order.id);
         order = { ...order, status: "failed", payment_status: "failed" };

@@ -178,8 +178,14 @@
 .lt-orders-list{ display:flex; flex-direction:column; gap:10px; margin-top:14px; }
 .lt-order-card{ border:1px solid var(--line); border-radius:12px; padding:12px 14px; }
 .lt-order-head{ display:flex; justify-content:space-between; font-weight:700; font-family:'Space Mono',monospace; font-size:0.85rem; }
+.lt-order-date{ font-size:0.72rem; color:var(--ink-soft); opacity:0.75; margin-top:2px; }
 .lt-order-items{ font-size:0.82rem; color:var(--ink-soft); margin:6px 0 2px; }
-.lt-order-pay{ font-size:0.76rem; color:var(--ink-soft); }
+.lt-order-pay{ font-size:0.76rem; color:var(--ink-soft); display:flex; align-items:center; flex-wrap:wrap; gap:2px; }
+.lt-fulfill-badge{ font-weight:700; text-transform:uppercase; letter-spacing:0.03em; font-size:0.68rem; padding:2px 8px; border-radius:100px; }
+.lt-fulfill-processing{ background:#F3E9D2; color:#8A6A1E; }
+.lt-fulfill-shipped{ background:#DCE6F5; color:#2C3A5C; }
+.lt-fulfill-delivered{ background:#DCEFE2; color:#0E6B4F; }
+.lt-fulfill-cancelled{ background:#F3D9D9; color:#B23429; }
 
 .lt-b2b-grid{ display:grid; grid-template-columns:1fr 1.2fr; gap:32px; margin-top:36px; }
 .lt-b2b-info{ display:grid; grid-template-columns:1fr 1fr; gap:14px; align-content:start; }

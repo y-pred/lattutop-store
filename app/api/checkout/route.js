@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { StandardCheckoutPayRequest } from "@phonepe-pg/pg-sdk-node";
 import { createAdminClient, createClient } from "@/lib/supabase/server";
 import { getPhonePeClient } from "@/lib/phonepe";
-import { notifyNewOrder } from "@/lib/notify";
+import { notifyNewOrder, notifyCustomerOrderConfirmation } from "@/lib/notify";
 
 function isValidAddress(address) {
   return Boolean(
@@ -110,10 +110,9 @@ export async function POST(request) {
 
   if (paymentMethod === "cod") {
     await admin.from("orders").update({ status: "cod_confirmed" }).eq("id", order.id);
-    await notifyNewOrder(
-      { id: order.id, payment_method: "cod", subtotal, shipping, total, shipping_address: address },
-      orderItems
-    );
+    const orderForEmail = { id: order.id, payment_method: "cod", subtotal, shipping, total, shipping_address: address };
+    await notifyNewOrder(orderForEmail, orderItems);
+    await notifyCustomerOrderConfirmation(orderForEmail, orderItems, user?.email || guestEmail || null);
     return NextResponse.json({ orderId: order.id, redirectUrl: `/checkout/complete?order=${order.id}` });
   }
 
