@@ -1,82 +1,41 @@
 import Link from "next/link";
-import Image from "next/image";
 import { Building2, ChevronRight, Package, Sparkles } from "lucide-react";
 import ProductCard from "@/components/ProductCard";
 import PegDoll from "@/components/decor/PegDoll";
 import PaintStroke from "@/components/decor/PaintStroke";
 import SpinningTop from "@/components/decor/SpinningTop";
 import Stars from "@/components/decor/Stars";
-import { getFeaturedProducts, getProductById } from "@/lib/products-data";
+import { getFeaturedProducts } from "@/lib/products-data";
 import { testimonials } from "@/lib/catalog";
 
 export default async function HomePage() {
   const { kids, collectibles } = await getFeaturedProducts();
-  // TEMPORARY: Janmashtami (4 Sep 2026) hero takeover for the kids half —
-  // swap this block back to the standard mascots/copy after this week.
-  // Original version is in git history (see commit that introduced this).
-  const krishnaDoll = await getProductById("krishna-radha-sudama");
 
   return (
     <>
       <section className="lt-hero">
         <div className="lt-hero-half lt-hero-kids">
-          {krishnaDoll?.image ? (
-            <div className="lt-hero-festive">
-              <div className="lt-hero-festive-media">
-                <Image
-                  src={krishnaDoll.image}
-                  alt="Krishna, Radha & Sudama wooden peg dolls"
-                  width={240}
-                  height={240}
-                  priority
-                  className="lt-hero-festive-img"
-                />
-                <span className="lt-hero-festive-badge">₹499</span>
-              </div>
-              <div className="lt-hero-festive-copy">
-                <p className="lt-eyebrow lt-eyebrow-light">This Janmashtami</p>
-                <h1>
-                  Krishna, Radha & Sudama,
-                  <br />
-                  home in time for the festival.
-                </h1>
-                <p className="lt-hero-copy">
-                  This Janmashtami, gift your loved ones a hand-painted keepsake — Krishna and his iconic flute,
-                  alongside Radha and Sudama, at just ₹499.
-                </p>
-                <div className="lt-hero-kids-actions">
-                  <Link href="/products/krishna-radha-sudama" className="lt-btn lt-btn-candy">
-                    Shop the Krishna Doll <ChevronRight size={16} />
-                  </Link>
-                  <SpinningTop />
-                </div>
-              </div>
-            </div>
-          ) : (
-            <>
-              <div className="lt-hero-mascots">
-                <PegDoll uid="hero-m1" body="#2C3A5C" head="#D9A023" pattern="dots" size={54} bob delay={0} />
-                <PegDoll uid="hero-m2" body="#D9A023" head="#F3E9D2" pattern="stripes" size={54} bob delay={0.3} />
-                <PegDoll uid="hero-m3" body="#0E6B4F" head="#F3E9D2" pattern="dots" size={54} bob delay={0.6} />
-              </div>
-              <p className="lt-eyebrow lt-eyebrow-light">For little hands</p>
-              <h1>
-                Wooden peg dolls,
-                <br />
-                with a story to tell.
-              </h1>
-              <p className="lt-hero-copy">
-                Handmade, hand-painted, 100% child-safe. Every doll comes with story cards that bring a little bit
-                of Indian culture into playtime.
-              </p>
-              <div className="lt-hero-kids-actions">
-                <Link href="/kids" className="lt-btn lt-btn-candy">
-                  Shop Kids Dolls <ChevronRight size={16} />
-                </Link>
-                <SpinningTop />
-              </div>
-            </>
-          )}
+          <div className="lt-hero-mascots">
+            <PegDoll uid="hero-m1" body="#2C3A5C" head="#D9A023" pattern="dots" size={54} bob delay={0} />
+            <PegDoll uid="hero-m2" body="#D9A023" head="#F3E9D2" pattern="stripes" size={54} bob delay={0.3} />
+            <PegDoll uid="hero-m3" body="#0E6B4F" head="#F3E9D2" pattern="dots" size={54} bob delay={0.6} />
+          </div>
+          <p className="lt-eyebrow lt-eyebrow-light">For little hands</p>
+          <h1>
+            Wooden peg dolls,
+            <br />
+            with a story to tell.
+          </h1>
+          <p className="lt-hero-copy">
+            Handmade, hand-painted, 100% child-safe. Every doll comes with story cards that bring a little bit of
+            Indian culture into playtime.
+          </p>
+          <div className="lt-hero-kids-actions">
+            <Link href="/kids" className="lt-btn lt-btn-candy">
+              Shop Kids Dolls <ChevronRight size={16} />
+            </Link>
+            <SpinningTop />
+          </div>
         </div>
         <div className="lt-hero-half lt-hero-collect">
           <p className="lt-eyebrow lt-eyebrow-light">For the workstation</p>
