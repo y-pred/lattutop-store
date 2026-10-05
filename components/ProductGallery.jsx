@@ -10,18 +10,27 @@ export default function ProductGallery({ product }) {
   const gallery = product.images?.length ? product.images : [product.image, product.image2].filter(Boolean);
 
   const [active, setActive] = useState(gallery[0]);
+  const isVideo = (src) => /\.(mp4|webm|mov)$/i.test(src || "");
 
   return (
     <div className="lt-modal-media">
       <div className="lt-modal-media-frame">
-        <Image src={active} alt={product.name} fill sizes="240px" unoptimized style={{ objectFit: "contain" }} />
+        {isVideo(active) ? (
+          <video src={active} controls autoPlay muted loop playsInline style={{ width: "100%", height: "100%", objectFit: "contain" }} />
+        ) : (
+          <Image src={active} alt={product.name} fill sizes="240px" unoptimized style={{ objectFit: "contain" }} />
+        )}
       </div>
       {gallery.length > 1 && (
         <div className="lt-thumb-row">
           {gallery.map((src, i) => (
             <button key={src + i} className={active === src ? "lt-active" : ""} onClick={() => setActive(src)}>
               <div className="lt-thumb-frame">
-                <Image src={src} alt="" fill sizes="50px" unoptimized style={{ objectFit: "contain" }} />
+                {isVideo(src) ? (
+                  <video src={src} muted style={{ width: "100%", height: "100%", objectFit: "contain" }} />
+                ) : (
+                  <Image src={src} alt="" fill sizes="50px" unoptimized style={{ objectFit: "contain" }} />
+                )}
               </div>
             </button>
           ))}
