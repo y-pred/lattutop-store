@@ -59,7 +59,7 @@ export default function CheckoutPage() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          items: items.map((i) => ({ productId: i.id, qty: i.qty })),
+          items: items.map((i) => ({ productId: i.id, qty: i.qty, variant: i.variant || undefined })),
           address,
           paymentMethod: payMethod,
           guestEmail: user ? undefined : guestEmail,
@@ -156,9 +156,10 @@ export default function CheckoutPage() {
 
           <div className="lt-order-summary">
             {items.map((i) => (
-              <div className="lt-summary-row" key={i.id}>
+              <div className="lt-summary-row" key={i.cartItemId}>
                 <span>
-                  {i.name} × {i.qty}
+                  {i.name}
+                  {i.variant ? ` (${i.variant})` : ""} × {i.qty}
                 </span>
                 <span>{inr(i.price * i.qty)}</span>
               </div>

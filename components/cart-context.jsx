@@ -35,39 +35,47 @@ export function CartProvider({ children }) {
   }, []);
 
   // `product` is the denormalized product snapshot (id, name, price, image)
-  // so the drawer can render without re-fetching from Supabase.
+  // so the drawer can render without re-fetching from Supabase. `variant` is
+  // an optional { name, image } for products with a lightweight variant
+  // picker — two different variants of the same product are kept as
+  // separate cart lines, keyed by cartItemId (productId + variant name).
   const addToCart = useCallback(
-    (product, qty = 1) => {
+    (product, qty = 1, variant = null) => {
       if (!product?.id) return;
+      const cartItemId = variant?.name ? `${product.id}::${variant.name}` : product.id;
       setItems((prev) => {
-        const existing = prev.find((i) => i.id === product.id);
+        const existing = prev.find((i) => i.cartItemId === cartItemId);
         if (existing) {
-          return prev.map((i) => (i.id === product.id ? { ...i, qty: i.qty + qty } : i));
+          return prev.map((i) => (i.cartItemId === cartItemId ? { ...i, qty: i.qty + qty } : i));
         }
         return [
           ...prev,
           {
+            cartItemId,
             id: product.id,
             name: product.name,
+            variant: variant?.name || null,
             price: product.price,
-            image: product.image,
+            image: variant?.image || product.image,
             qty,
           },
         ];
       });
-      flashToast(`${product.name} added to cart`);
+      flashToast(`${product.name}${variant?.name ? ` (${variant.name})` : ""} added to cart`);
     },
     [flashToast]
   );
 
-  const updateQty = useCallback((id, qty) => {
+  const updateQty = useCallback((cartItemId, qty) => {
     setItems((prev) =>
-      qty < 1 ? prev.filter((i) => i.id !== id) : prev.map((i) => (i.id === id ? { ...i, qty } : i))
+      qty < 1
+        ? prev.filter((i) => i.cartItemId !== cartItemId)
+        : prev.map((i) => (i.cartItemId === cartItemId ? { ...i, qty } : i))
     );
   }, []);
 
-  const removeItem = useCallback((id) => {
-    setItems((prev) => prev.filter((i) => i.id !== id));
+  const removeItem = useCallback((cartItemId) => {
+    setItems((prev) => prev.filter((i) => i.cartItemId !== cartItemId));
   }, []);
 
   const clearCart = useCallback(() => setItems([]), []);

@@ -70,7 +70,13 @@ export async function POST(request) {
       return NextResponse.json({ error: "One of the items in your cart is no longer available." }, { status: 400 });
     }
     subtotal += product.price * qty;
-    orderItems.push({ product_id: product.id, product_name: product.name, unit_price: product.price, qty });
+    // Lightweight variant picker (e.g. Coder doll color): no separate SKU/
+    // schema, just folded into the order item's name so it shows up
+    // everywhere product_name already does (My Orders, owner + customer
+    // emails) without touching those code paths individually.
+    const variant = typeof item.variant === "string" ? item.variant.replace(/[<>]/g, "").slice(0, 40) : "";
+    const productName = variant ? `${product.name} (${variant})` : product.name;
+    orderItems.push({ product_id: product.id, product_name: productName, unit_price: product.price, qty });
   }
 
   // Shipping is baked into product prices, not charged as a separate line item.

@@ -34,22 +34,25 @@ export default function CartDrawer() {
           <>
             <div className="lt-drawer-items">
               {items.map((i) => (
-                <div className="lt-cart-item" key={i.id}>
+                <div className="lt-cart-item" key={i.cartItemId}>
                   <Image src={i.image} alt={i.name} width={56} height={56} unoptimized />
                   <div className="lt-cart-item-info">
-                    <p className="lt-cart-item-name">{i.name}</p>
+                    <p className="lt-cart-item-name">
+                      {i.name}
+                      {i.variant && <span className="lt-cart-item-variant"> · {i.variant}</span>}
+                    </p>
                     <p className="lt-cart-item-price">{inr(i.price)}</p>
                     <div className="lt-stepper lt-stepper-sm">
-                      <button className="lt-icon-btn" onClick={() => updateQty(i.id, i.qty - 1)}>
+                      <button className="lt-icon-btn" onClick={() => updateQty(i.cartItemId, i.qty - 1)}>
                         <Minus size={12} />
                       </button>
                       <span>{i.qty}</span>
-                      <button className="lt-icon-btn" onClick={() => updateQty(i.id, i.qty + 1)}>
+                      <button className="lt-icon-btn" onClick={() => updateQty(i.cartItemId, i.qty + 1)}>
                         <Plus size={12} />
                       </button>
                     </div>
                   </div>
-                  <button className="lt-remove" onClick={() => removeItem(i.id)}>
+                  <button className="lt-remove" onClick={() => removeItem(i.cartItemId)}>
                     <X size={14} />
                   </button>
                 </div>
