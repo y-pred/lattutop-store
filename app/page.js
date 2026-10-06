@@ -8,6 +8,11 @@ import Stars from "@/components/decor/Stars";
 import { getFeaturedProducts } from "@/lib/products-data";
 import { testimonials } from "@/lib/catalog";
 
+// Re-fetch product data from Supabase at most once a minute instead of
+// baking it in permanently at build time — so catalog/pricing/ordering
+// changes show up without needing a full redeploy.
+export const revalidate = 60;
+
 export default async function HomePage() {
   const { kids, collectibles } = await getFeaturedProducts();
 

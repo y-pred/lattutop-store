@@ -5,6 +5,8 @@ import { inr } from "@/lib/format";
 import ProductGallery from "@/components/ProductGallery";
 import AddToCartForm from "@/components/AddToCartForm";
 
+export const revalidate = 60;
+
 export async function generateMetadata({ params }) {
   const { id } = await params;
   const product = await getProductById(id);

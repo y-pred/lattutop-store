@@ -4,6 +4,7 @@ import PaintStroke from "@/components/decor/PaintStroke";
 import { getProductsBySection } from "@/lib/products-data";
 
 export const metadata = { title: "Kids Dolls — lattuTop" };
+export const revalidate = 60;
 
 export default async function KidsPage() {
   const products = await getProductsBySection("kids");
